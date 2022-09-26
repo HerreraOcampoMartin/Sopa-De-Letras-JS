@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 *{
     box-sizing: border-box;
-    font-family: Verdana;
+    font-family: Roboto;
     color: white;
 }
+
 body{
     background-color: rgb(29, 29, 29);
     -webkit-touch-callout: none;
@@ -20,13 +23,13 @@ h2{
     min-width: 200px;
     width: 50%;
     height: 50%;
-    background-color: red;
     box-shadow: 5px 5px 5px black;
     margin-left: auto;
     margin-right: auto;
 }
+
 .letra{
-    background-color: red;
+    background-color: #003399;
     display: inline-block;
     text-align: center;
     width: 6.66%;
@@ -36,8 +39,20 @@ h2{
     border: 2px solid black;
 }
 .letra:hover{
-    background-color: greenyellow;
+    background-color: #99ff99;
+    color: black;
 }
+    
+.seleccionado {
+    background-color: white;
+    color: black;
+}
+
+.completado{
+    background-color: red;
+    color: white;
+}
+
 .palabras, .sopa{
     display: inline-block;
     margin-left: 12.5%;
@@ -50,6 +65,11 @@ h2{
     font-size: 2em;
     text-align: center;
     padding: 5px;
+}
+
+.encontrada{
+    text-decoration: line-through;
+    color: gray;
 }
 
 

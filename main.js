@@ -18,147 +18,56 @@ for(var i = 0; i < 15; i++){
 colocarPalabras();
 
 function letraRandom(){
-    var numero = parseInt(Math.random() * (28 - 1) + 1), letra;
-    switch(numero){
-        case 1:
-            letra = "a";
-            break;
-        case 2:
-            letra = "b";
-            break;
-        case 3:
-            letra = "c";
-            break;
-        case 4:
-            letra = "d";
-            break;
-        case 5:
-            letra = "e";
-            break;
-        case 6:
-            letra = "f";
-            break;
-        case 7:
-            letra = "g";
-            break;
-        case 8:
-            letra = "h";
-            break;
-        case 9:
-            letra = "i";
-            break;
-        case 10:
-            letra = "j";
-            break;
-        case 11:
-            letra = "k";
-            break;
-        case 12:
-            letra = "l";
-            break;
-        case 13:
-            letra = "m";
-            break;
-        case 14:
-            letra = "n";
-            break;
-        case 15:
-            letra = "ñ";
-            break;
-        case 16:
-            letra = "o";
-            break;
-        case 17:
-            letra = "p";
-            break;
-        case 18:
-            letra = "q";
-            break;
-        case 19:
-            letra = "r";
-            break;
-        case 20:
-            letra = "s";
-            break;
-        case 21:
-            letra = "t";
-            break;
-        case 22:
-            letra = "u";
-            break;
-        case 23:
-            letra = "v";
-            break;
-        case 24:
-            letra = "w";
-            break;
-        case 25:
-            letra = "x";
-            break;
-        case 26:
-            letra = "y";
-            break;
-        case 27:
-            letra = "z";
-            break;
-    }
-    return letra;
+    const letras = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q",
+        "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    var numero = parseInt(Math.random() * (28 - 1)), letra;
+    
+    return letras[numero];
 }
+
 function eventoPresionar(e){
     seleccionando = true;
-    if(e.target.style.color != "blue"){
-        e.target.style.color = "black";
-        e.target.style.backgroundColor = "white";
-    }
+    e.target.classList.add("seleccionado")
     listaLetras.push(e.target);
 }
+
 function eventoSoltar(){
     seleccionando = false;
     var palabraSeleccionada = "";
     for(var i = 0; i < listaLetras.length; i++){
         palabraSeleccionada += listaLetras[i].textContent;
-        if(listaLetras[i].style.color != "blue"){
-            listaLetras[i].style.color = "white";
-            listaLetras[i].style.backgroundColor = "red";
-        }
+        listaLetras[i].classList.remove("seleccionado")
     }
     for(var i = 0; i < 8; i++){
         if(palabraSeleccionada == palabras[i]){
-            console.log("Palabra encontrada: "+palabraSeleccionada);
+            console.log("Palabra encontrada: " + palabraSeleccionada);
+            encontradas++;
             for(var j = 0; j < listaLetras.length; j++){
-                listaLetras[j].style.color = "blue";
-                listaLetras[j].style.backgroundColor = "white";
-                listaLetras[j].disabled = true;
-                palabras[i] += ".";
+                listaLetras[j].classList.add("completado");
             }
-            document.getElementById("palabra"+(i+1)).style.textDecoration = "line-through";
+            document.getElementById("palabra"+(i+1)).classList.add("encontrada");
             break;
         }
     }
-    for(var i = 0; i < 8; i++){
-        var e = 0
-        if(document.getElementById("palabra"+(i+1)).style.textDecoration == "line-through"){
-            e++;
-        }
-        if(e == 7){
-            ganar;
-        }
+    
+    if (encontradas == 8){
+        ganar()
     }
+    
     listaLetras = [];
 }
+
 function eventoMouseOver(e){
-    if(seleccionando && e.target.style.color != "blue"){
-        e.target.style.color = "black";
-        e.target.style.backgroundColor = "white";
-        listaLetras.push(e.target);
+    if(seleccionando && !e.target.classList.contains("completado")){
+        eventoPresionar(e);
     }
 }
+
 function elegirPalabras(){
     listaPalabras = ["GATO", "PERRO", "PANTALLA", "BOTELLA", "MUSICA", "LLAVE", "OCEANO", 
     "GUITARRA", "AZUL", "IMPRESORA", "BOTON", "CONTENEDOR", "FUNCION", "CEPILLO", "BRAZO",
     "PAÑUELO", "NUMERO", "CARTEL", "CONTINENTE", "AMERICA", "EUROPA", "OCEANIA", "ASIA", 
-    "AFRICA", "ANTARTIDA", "ARGENTINA", "BRASIL", "FRANCIA", "INGLATERRA", "ALEMANIA", 
-    "CANADA", "MONTAÑA", "ARENA", "TIERRA", "METAL", "TECLADO", "ALUMINIO", "PIRAMIDE"];
+    "AFRICA", "ANTARTIDA", "METAL", "TECLADO", "ALUMINIO", "PIRAMIDE"];
 
     for(var i = 0; i < 8; i++){
         palabras.push(listaPalabras[parseInt(Math.random() * listaPalabras.length)]);
@@ -166,6 +75,7 @@ function elegirPalabras(){
     }
 
 }
+
 function colocarPalabras(){
     for(var i = 0; i < 8; i++){
         var colocada = false;
@@ -180,9 +90,11 @@ function colocarPalabras(){
         anadirALista(palabras[i], i+1);
     }
 }
+
 function anadirALista(palabra, num){
     document.getElementById("palabra"+num).textContent = palabra;
 }
+
 function colocarHorizontal(i){
     var etqs = document.getElementsByClassName("letra"), x, y;
         //HORIZONTAL
@@ -198,6 +110,7 @@ function colocarHorizontal(i){
         }
     return true;
 }
+
 function colocarVertical(i){
     //VERTICAL
     var etqs = document.getElementsByClassName("letra"), x, y;
@@ -213,12 +126,14 @@ function colocarVertical(i){
     }
     return true;
 }
+
 function getDireccion(){
     var dir = parseInt(Math.random() * 2);
     return dir;
 }
+
 function ganar(){
-    document.write("¡GANASTE!");
+    alert("¡GANASTE!");
 }
 
 
